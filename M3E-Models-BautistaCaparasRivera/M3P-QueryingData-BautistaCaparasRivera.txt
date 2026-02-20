@@ -1,0 +1,61 @@
+Given Prompts:
+[P: A.] [S:BautistaGiordann] WaterBottle.objects.all()
+[P: B.] [S:CaparasCalista] WaterBottle.objects.all().order_by('brand')  
+[P: C.] [S:RiveraSam] WaterBottle.objects.all().order_by('brand')  
+[P: D.] [S:BautistaGiordann] WaterBottle.objects.filter(color = 'Black')
+[P: E.] [S:CaparasCalista]  WaterBottle.objects.filter(color="White", brand="Hydro Flask")  
+[P: F.] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name="Sailfish Inc.")  
+[P: G.] [S:BautistaGiordann] WaterBottle.objects.filter(color = 'Blue', supplied_by__name = 'Bucky Inc.')
+[P: H.] [S:CaparasCalista] WaterBottle.objects.filter(cost__gte=3000) 
+[P: I.] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name="Sailfish Inc.") 
+[P: J.] [S:BautistaGiordann] WaterBottle.objects.filter(supplied_by__name = 'Bucky Inc.') | WaterBottle.objects.filter (supplied_by__name = 'Meister Inc.')
+[P: K.] [S:CaparasCalista] WaterBottle.objects.filter(size="18 Oz").order_by("cost")  
+[P: L.] [S:RiveraSam] WaterBottle.objects.filter(size="1 Liter", color="White").order_by('-cost')
+
+
+Giordann's Prompts:
+1. Supplier only in the USA
+2. Water Bottles that cost 2500
+3. Water Bottles that are White or Transparent
+4. Water Bottles from Duke Inc or Bucky Inc
+5. Water Bottles that are 18 Oz from least to most expensive
+6. Water Bottles that are from AquaPeak, Petronas, and Duke from most expensive to least
+
+1.[P: BautistaGiordann] [S:CaparasCalista] WaterBottle.objects.filter(supplied_by__country="USA") 
+2.[P: BautistaGiordann] [S:RiveraSam] WaterBottle.objects.filter(cost__lte=2500)  
+3.[P: BautistaGiordann] [S:CaparasCalista] WaterBottle.objects.filter(color__in=["White", "Transparent"])
+4.[P: BautistaGiordann] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name__in=["Duke Inc.", "Bucky Inc."]) 
+5.[P: BautistaGiordann] [S:CaparasCalista] WaterBottle.objects.filter(size="18 Oz").order_by('cost')
+6.[P: BautistaGiordann] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name__in=["AquaPeak Co.", "Petronas", "Duke Inc."]).order_by('-cost')
+
+
+Calista's Prompts:
+1. Water Bottles that have a cost higher than 4000
+2. All Water Bottles with a wide mouth and size larger than 32 Oz
+3. Water Bottles that are either Black or Blue and have a cost greater than 3000
+4. All Water Bottles supplied by Bucky Inc, sorted by brand
+5. All Suppliers that have more than 3 Water Bottles listed
+6. Water Bottles that are supplied by AquaPeak Co. and are 24 Oz
+
+1.[P: CaparasCalista] [S:BautistaGiordann] WaterBottle.objects.filter(cost__gte=4000) 
+2.[P: CaparasCalista] [S:RiveraSam] WaterBottle.objects.filter(mouth_size="Wide Mouth", size__gt="32 Oz")  
+3.[P: CaparasCalista] [S:BautistaGiordann] WaterBottle.objects.filter(color__in=["Black", "Blue"], cost__gt=3000)  
+4.[P: CaparasCalista] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name="Bucky Inc.").order_by('brand')  
+5.[P: CaparasCalista] [S:BautistaGiordann] Supplier.objects.annotate(num_bottles=models.Count('waterbottles')).filter(num_bottles__gt=3)  
+6.[P: CaparasCalista] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name="AquaPeak Co.", size="24 Oz")
+
+Sam's Prompts:
+1. Water Bottles that are Red
+2. Water Bottles that cost 2500 or less, sorted by cost
+3. Water Bottles that are 32 Oz, supplied by Sailfish Inc
+4. Water Bottles from Duke Inc with 18 Oz size
+5. Water Bottles that are Blue and have a Wide Mouth, sorted by cost
+6. Water Bottles from AquaPeak Co., ordered by size (largest first)
+
+1.[P: RiveraSam] [S:BautistaGiordann] WaterBottle.objects.filter(color="Red")  
+2.[P: RiveraSam] [S:CaparasCalista] WaterBottle.objects.filter(cost__lte=2500).order_by("cost")  
+3.[P: RiveraSam] [S:BautistaGiordann] WaterBottle.objects.filter(size="32 Oz", supplied_by__name="Sailfish Inc.")  
+4.[P: RiveraSam] [S:CaparasCalista] WaterBottle.objects.filter(supplied_by__name="Duke Inc.", size="18 Oz")  
+5.[P: RiveraSam] [S:BautistaGiordann] WaterBottle.objects.filter(color="Blue", mouth_size="Wide Mouth").order_by('cost')  
+6.[P: RiveraSam] [S:CaparasCalista] WaterBottle.objects.filter(supplied_by__name="AquaPeak Co.").order_by('-size')
+
