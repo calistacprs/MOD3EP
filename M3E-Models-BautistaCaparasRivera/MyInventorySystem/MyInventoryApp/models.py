@@ -7,8 +7,6 @@ class Supplier(models.Model):
     country = models.CharField(max_length=300)
     created_at = models.DateTimeField(blank=True, null=True)
 
-    objects = models.Manager()
-
     def getName(self):
         return self.name
 
@@ -25,8 +23,6 @@ class WaterBottle(models.Model):
     color = models.CharField(max_length=300)
     supplied_by = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     current_quantity = models.IntegerField()
-
-    objects = models.Manager()
 
     def __str__(self):
         return (
