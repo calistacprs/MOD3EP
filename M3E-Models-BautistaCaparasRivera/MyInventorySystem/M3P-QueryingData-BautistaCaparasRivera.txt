@@ -41,7 +41,7 @@ Calista's Prompts:
 2.[P: CaparasCalista] [S:RiveraSam] WaterBottle.objects.filter(mouth_size="Wide Mouth", size__gt="32 Oz")  
 3.[P: CaparasCalista] [S:BautistaGiordann] WaterBottle.objects.filter(color__in=["Black", "Blue"], cost__gt=3000)  
 4.[P: CaparasCalista] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name="Bucky Inc.").order_by('brand')  
-5.[P: CaparasCalista] [S:BautistaGiordann] Supplier.objects.annotate(num_bottles=models.Count('waterbottles')).filter(num_bottles__gt=3)  
+5.[P: CaparasCalista] [S:BautistaGiordann] Supplier.objects.annotate(num_bottles=models.Count('waterbottle')).filter(num_bottles__gt=3)  
 6.[P: CaparasCalista] [S:RiveraSam] WaterBottle.objects.filter(supplied_by__name="AquaPeak Co.", size="24 Oz")
 
 Sam's Prompts:
